@@ -1,3 +1,5 @@
+import "./Category.css";
+
 function Category({ selectedCategory, onCategoryChange }) {
     const categories = [
         "general",
@@ -9,10 +11,15 @@ function Category({ selectedCategory, onCategoryChange }) {
     ];
 
     return (
-        <div className="categories">
+        <div className="category-container">
             {categories.map((category) => (
                 <button
                     key={category}
+                    className={
+                        selectedCategory === category
+                            ? "category-btn active"
+                            : "category-btn"
+                    }
                     onClick={() => onCategoryChange(category)}
                 >
                     {category}
