@@ -16,13 +16,26 @@ def get_news():
     url = "https://newsapi.org/v2/top-headlines"
 
     category = request.args.get("category", "general")
+    search= request.args.get("search", "")
 
-    params={
-        "country":"us",
-        "pageSize":20,
-        "category": category,
-        "apiKey":NEWS_API_KEY
+    if search:
+        url = "https://newsapi.org/v2/everything"
+
+        params = {
+            "q": search,
+            "pageSize": 20,
+            "sortBy": "publishedAt",
+            "apiKey": NEWS_API_KEY
     }
+    else:
+        url = "https://newsapi.org/v2/top-headlines"
+
+        params = {
+            "country": "us",
+            "category": category,
+            "pageSize": 20,
+            "apiKey": NEWS_API_KEY
+        }
 
     response=requests.get(url, params=params)
     data=response.json()
