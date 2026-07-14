@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-function Navbar(){
+function Navbar({ searchInput, setSearchInput, setSearchQuery}){
 
     return(
         <>
@@ -19,6 +19,13 @@ function Navbar(){
                     <input
                         type="text"
                         placeholder="Search news.."
+                        value={searchInput}
+                        onChange={(e)=> setSearchInput(e.target.value)}
+                        onKeyDown={(e)=>{
+                            if(e.key==="Enter"){
+                                setSearchQuery(searchInput);
+                            }
+                        }}
                     />
                 </div>
             </nav>

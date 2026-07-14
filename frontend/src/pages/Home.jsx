@@ -5,12 +5,14 @@ import Category from "../components/Category";
 import "./Home.css";
 
 function Home() {
-  const [news, setNews]=useState([]);
+  const [news, setNews]= useState([]);
   const [selectedCategory, setSelectedCategory] = useState("general");
+  const [searchQuery, setSearchQuery]= useState("");
+  const [searchInput, setSearchInput]= useState("");
 
   async function fetchNews() {
     try{
-      const url=`http://127.0.0.1:5000/news?category=${selectedCategory}`;
+      const url=`http://127.0.0.1:5000/news?category=${selectedCategory}&search=${searchQuery}`;
       const response= await fetch(url);
       const data=await response.json();
       setNews(data);
@@ -22,16 +24,26 @@ function Home() {
 
   useEffect(()=>{
     fetchNews();
-  }, [selectedCategory])
+  }, [selectedCategory, searchQuery])
+
+  function handleCategoryChange(category){
+    setSelectedCategory(category);
+    setSearchInput("");
+    setSearchQuery("");
+  }
 
 
   return (
     <>
-    <Navbar/>
+    <Navbar
+      searchInput={searchInput}
+      setSearchInput={setSearchInput}
+      setSearchQuery={setSearchQuery}
+    />
 
     <Category
       selectedCategory={selectedCategory}
-      onCategoryChange={setSelectedCategory}
+      onCategoryChange={handleCategoryChange}
     />
     
     <div className="news-container">
