@@ -4,11 +4,17 @@ from dotenv import load_dotenv
 import requests
 import os
 
+from config import Config
+from database import db
+
 load_dotenv()
 NEWS_API_KEY=os.getenv("NEWS_API_KEY")
 
 app= Flask(__name__)
 CORS(app)
+
+app.config.from_object(Config)
+db.init_app(app)
 
 @app.route("/")
 def get_news():
@@ -53,4 +59,6 @@ def get_news():
     return jsonify(articles)
 
 if __name__=="__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
