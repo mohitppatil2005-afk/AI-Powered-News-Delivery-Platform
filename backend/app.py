@@ -10,7 +10,7 @@ NEWS_API_KEY=os.getenv("NEWS_API_KEY")
 app= Flask(__name__)
 CORS(app)
 
-@app.route("/news")
+@app.route("/")
 def get_news():
     
     url = "https://newsapi.org/v2/top-headlines"
