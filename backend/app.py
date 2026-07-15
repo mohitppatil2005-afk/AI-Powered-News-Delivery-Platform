@@ -6,6 +6,7 @@ import os
 
 from config import Config
 from database import db
+from models import Bookmark
 
 load_dotenv()
 NEWS_API_KEY=os.getenv("NEWS_API_KEY")
@@ -57,6 +58,33 @@ def get_news():
             "publishedAt": article.get("publishedAt")
         })
     return jsonify(articles)
+
+@app.route("/bookmarks", methods=["POST"])
+def add_bookmark():
+    data = request.get_json()
+
+    existing = Bookmark.query.filter_by(url=data.get("url")).first()
+
+    if existing:
+        return jsonify({
+            "message": "Article already bookmarked!"
+        }), 409
+
+    bookmark = Bookmark(
+        title=data.get("title"),
+        description=data.get("description"),
+        image=data.get("image"),
+        url=data.get("url"),
+        source=data.get("source"),
+        published_at=data.get("publishedAt")
+    )
+
+    db.session.add(bookmark)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Bookmark saved successfully!"
+    }), 201
 
 if __name__=="__main__":
     with app.app_context():
