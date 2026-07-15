@@ -9,10 +9,11 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState("general");
   const [searchQuery, setSearchQuery]= useState("");
   const [searchInput, setSearchInput]= useState("");
+  const [recommendedNews, setRecommendedNews] = useState([]);
 
   async function fetchNews() {
     try{
-      const url=`http://127.0.0.1:5000/news?category=${selectedCategory}&search=${searchQuery}`;
+      const url=`http://127.0.0.1:5000/?category=${selectedCategory}&search=${searchQuery}`;
       const response= await fetch(url);
       const data=await response.json();
       setNews(data);
