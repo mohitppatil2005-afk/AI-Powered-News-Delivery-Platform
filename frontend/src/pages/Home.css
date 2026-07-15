@@ -5,3 +5,29 @@
     gap: 25px;
     padding: 30px;
 }
+
+.recommended-section {
+    margin: 30px;
+}
+
+.recommended-title {
+    margin-bottom: 15px;
+    color: #1e293b;
+}
+
+.recommended-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+}
+
+.recommended-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.recommended-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}

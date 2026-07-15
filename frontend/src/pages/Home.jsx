@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import NewsCard from "../components/NewsCard";
 import Category from "../components/Category";
+import RecommendedCard from "../components/RecommendedCard";
 import "./Home.css";
 
 function Home() {
@@ -10,6 +11,7 @@ function Home() {
   const [searchQuery, setSearchQuery]= useState("");
   const [searchInput, setSearchInput]= useState("");
   const [recommendedNews, setRecommendedNews] = useState([]);
+
 
   async function fetchNews() {
     try{
@@ -23,9 +25,32 @@ function Home() {
     }
   }
 
+  const interests = JSON.parse(localStorage.getItem("interests")) || [];
+  console.log(interests);
+
+  async function fetchRecommendedNews(){
+    const recommendedArticles=[]
+    try{
+      for (const category of interests) {
+        const url=`http://127.0.0.1:5000/?category=${category.toLowerCase()}`;
+        const response= await fetch(url);
+        const data= await response.json();
+        recommendedArticles.push(...data.slice(0, 3));
+      }
+      setRecommendedNews(recommendedArticles);
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
   useEffect(()=>{
     fetchNews();
   }, [selectedCategory, searchQuery])
+
+  useEffect(() => {
+    fetchRecommendedNews();
+  }, []);
 
   function handleCategoryChange(category){
     setSelectedCategory(category);
@@ -46,7 +71,17 @@ function Home() {
       selectedCategory={selectedCategory}
       onCategoryChange={handleCategoryChange}
     />
-    
+
+    <div className="recommended-section">
+     <h2 className="recommended-title">Recommended For You</h2>
+
+      <div className="recommended-container">
+        {recommendedNews.map((article, index) => (
+            <RecommendedCard key={index} article={article} />
+        ))}
+      </div>
+    </div>
+
     <div className="news-container">
       {news.map((article, index) => (
           <NewsCard key={index} article={article} />

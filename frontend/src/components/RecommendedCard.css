@@ -1,0 +1,50 @@
+.recommended-card {
+    min-width: 240px;
+    max-width: 240px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+}
+
+.recommended-card:hover {
+    transform: translateY(-5px);
+}
+
+.recommended-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.recommended-content {
+    padding: 12px;
+}
+
+.recommended-heading {
+    font-size: 16px;
+    color: #222;
+    margin-bottom: 10px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.recommended-source {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.recommended-link {
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.recommended-link:hover {
+    text-decoration: underline;
+}
