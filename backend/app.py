@@ -19,7 +19,7 @@ app.register_blueprint(news_bp)
 app.register_blueprint(bookmark_bp)
 app.register_blueprint(like_bp)
 
-from models import Bookmark
+from models import Bookmark, Like
 
 if __name__=="__main__":
     with app.app_context():

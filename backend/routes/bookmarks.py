@@ -1,51 +1,65 @@
-from flask import Blueprint, jsonify, request
-from dotenv import load_dotenv
-import requests
-import os
+from flask import Blueprint, request, jsonify
+from database import db
+from models import Bookmark
 
-load_dotenv()
-NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+bookmark_bp = Blueprint("bookmark", __name__)
 
-news_bp = Blueprint("news", __name__)
+@bookmark_bp.route("/bookmarks", methods=["POST"])
+def add_bookmark():
+    data = request.get_json()
 
-@news_bp.route("/", methods=["GET"])
-def get_news():
+    existing = Bookmark.query.filter_by(url=data.get("url")).first()
 
-    category = request.args.get("category", "general")
-    search = request.args.get("search", "")
+    if existing:
+        return jsonify({
+            "message": "Article already bookmarked!"
+        }), 409
 
-    if search:
-        url = "https://newsapi.org/v2/everything"
+    bookmark = Bookmark(
+        title=data.get("title"),
+        description=data.get("description"),
+        image=data.get("image"),
+        url=data.get("url"),
+        source=data.get("source"),
+        published_at=data.get("publishedAt")
+    )
 
-        params = {
-            "q": search,
-            "pageSize": 20,
-            "sortBy": "publishedAt",
-            "apiKey": NEWS_API_KEY
-        }
-    else:
-        url = "https://newsapi.org/v2/top-headlines"
+    db.session.add(bookmark)
+    db.session.commit()
 
-        params = {
-            "country": "us",
-            "category": category,
-            "pageSize": 20,
-            "apiKey": NEWS_API_KEY
-        }
+    return jsonify({
+        "message": "Bookmark saved successfully!"
+    }), 201
 
-    response = requests.get(url, params=params)
-    data = response.json()
+@bookmark_bp.route("/bookmarks", methods=["GET"])
+def get_bookmark():
+    bookmarks = Bookmark.query.all()
+    bookmarks_data=[]
 
-    articles = []
+    for bookmark in bookmarks:
+        bookmarks_data.append({
+            "id": bookmark.id,
+            "title": bookmark.title,
+            "description": bookmark.description,
+            "image": bookmark.image,
+            "url": bookmark.url,
+            "source": bookmark.source,
+            "publishedAt": bookmark.published_at
+    })
+    return jsonify(bookmarks_data)
 
-    for article in data.get("articles", []):
-        articles.append({
-            "title": article.get("title"),
-            "description": article.get("description"),
-            "image": article.get("urlToImage"),
-            "url": article.get("url"),
-            "source": article.get("source", {}).get("name"),
-            "publishedAt": article.get("publishedAt")
-        })
+@bookmark_bp.route("/bookmarks/<int:id>", methods=["DELETE"])
+def delete_bookmark(id):
+    bookmark = db.session.get(Bookmark, id)
 
-    return jsonify(articles)
+    if not bookmark:
+        return jsonify({
+            "message": "Bookmark not found"
+        }), 404
+
+    db.session.delete(bookmark)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Bookmark deleted successfully"
+    }), 200
