@@ -1,0 +1,28 @@
+.bookmark-page {
+    min-height: 100vh;
+    padding: 30px 60px;
+    background-color: #f5f7fb;
+}
+
+.bookmark-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #1e293b;
+}
+
+.bookmark-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
+}
+
+.empty-bookmarks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    font-size: 1.2rem;
+    color: #64748b;
+    font-weight: 500;
+}

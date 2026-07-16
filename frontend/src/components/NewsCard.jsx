@@ -1,6 +1,43 @@
 import "./NewsCard.css";
+import axios from "axios";
 
-function NewsCard({ article }) {
+function NewsCard({ article, isBookmarkPage = false, onDelete }) {
+
+    const handleBookmark = async () => {
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:5000/bookmarks",
+                article
+            );
+
+            alert(response.data.message);
+        } catch (error) {
+            if (error.response?.status === 409) {
+                alert("Article already bookmarked!");
+            } else {
+                alert("Failed to save bookmark.");
+                console.error(error);
+            }
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            await axios.delete(
+                `http://127.0.0.1:5000/bookmarks/${article.id}`
+            );
+
+            alert("Bookmark deleted!");
+
+            if (onDelete) {
+                onDelete();
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Failed to delete bookmark.");
+        }
+    };
+
     return (
         <div className="news-card">
             <div className="news-image">
@@ -14,7 +51,12 @@ function NewsCard({ article }) {
 
             <div className="news-button">
                 <button className="like">❤️</button>
-                <button className="bookmark">🔖</button>
+                <button
+                    className="bookmark"
+                    onClick={isBookmarkPage ? handleDelete : handleBookmark}
+                >
+                    {isBookmarkPage ? "🗑️" : "🔖"}
+                </button>
 
                 <a
                     href={article.url}
