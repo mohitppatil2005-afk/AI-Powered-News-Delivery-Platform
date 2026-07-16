@@ -8,6 +8,7 @@ import Bookmarks from "../pages/Bookmarks";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import Preferences from "../pages/Preferences";
+import Likes from "../pages/Likes";
 
 function AppRouter(){
     return(
@@ -21,6 +22,7 @@ function AppRouter(){
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="*" element={<NotFound/>}/>
                 <Route path="/preferences" element={<Preferences />} />
+                <Route path="/likes" element={<Likes />} />
             </Routes>
         </BrowserRouter>
     );

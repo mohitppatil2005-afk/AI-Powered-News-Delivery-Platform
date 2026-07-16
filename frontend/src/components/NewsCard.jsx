@@ -1,7 +1,7 @@
 import "./NewsCard.css";
 import axios from "axios";
 
-function NewsCard({ article, isBookmarkPage = false, onDelete }) {
+function NewsCard({ article, isBookmarkPage = false, onDelete, isLikePage = false, onUnlike}) {
 
     const handleBookmark = async () => {
         try {
@@ -38,6 +38,37 @@ function NewsCard({ article, isBookmarkPage = false, onDelete }) {
         }
     };
 
+    const handleLike = async () => {
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:5000/likes",
+                article
+            );
+
+            alert(response.data.message);
+        } catch (error) {
+            if (error.response?.status === 409) {
+                alert("Article already liked!");
+            } else {
+                alert("Failed to like article.");
+            }
+        }
+    };
+
+    const handleUnlike = async () => {
+        try {
+            await axios.delete(
+                `http://127.0.0.1:5000/likes/${article.id}`
+            );
+
+            if (onUnlike) {
+                onUnlike();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="news-card">
             <div className="news-image">
@@ -50,7 +81,12 @@ function NewsCard({ article, isBookmarkPage = false, onDelete }) {
             </div>
 
             <div className="news-button">
-                <button className="like">❤️</button>
+                <button
+                    className="like"
+                    onClick={isLikePage ? handleUnlike : handleLike}
+                >
+                    {isLikePage ? "💔" : "❤️"}
+                </button>
                 <button
                     className="bookmark"
                     onClick={isBookmarkPage ? handleDelete : handleBookmark}

@@ -15,6 +15,7 @@ function Navbar({ searchInput, setSearchInput, setSearchQuery}){
                     <Link className="nav-link" to="/profile">Profile</Link>
                     <Link className="nav-link" to="/login">Login</Link>
                     <Link className="nav-link" to="/preferences">Preferences</Link>
+                    <Link className="nav-link" to="/likes">Likes</Link>
                 </div>
                 <div className="navbar-search">
                     <input
