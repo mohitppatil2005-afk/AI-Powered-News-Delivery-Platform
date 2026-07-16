@@ -86,6 +86,23 @@ def add_bookmark():
         "message": "Bookmark saved successfully!"
     }), 201
 
+@app.route("/bookmarks", methods=["GET"])
+def get_bookmark():
+    bookmarks = Bookmark.query.all()
+    bookmarks_data=[]
+
+    for bookmark in bookmarks:
+        bookmarks_data.append({
+            "id": bookmark.id,
+            "title": bookmark.title,
+            "description": bookmark.description,
+            "image": bookmark.image,
+            "url": bookmark.url,
+            "source": bookmark.source,
+            "publishedAt": bookmark.published_at
+    })
+    return jsonify(bookmarks_data)
+
 if __name__=="__main__":
     with app.app_context():
         db.create_all()
