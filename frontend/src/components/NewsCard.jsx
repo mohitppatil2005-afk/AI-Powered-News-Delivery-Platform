@@ -69,6 +69,25 @@ function NewsCard({ article, isBookmarkPage = false, onDelete, isLikePage = fals
         }
     };
 
+    const handleReadMore = async (e) => {
+        e.preventDefault();
+
+        try {
+            await axios.post("http://127.0.0.1:5000/history", {
+                title: article.title,
+                description: article.description,
+                source: article.source?.name || article.source,
+                url: article.url,
+                image: article.image,
+                published_at: article.publishedAt,
+            });
+        } catch (error) {
+            console.error("Failed to save history:", error);
+        }
+
+        window.open(article.url, "_blank");
+    };
+
     return (
         <div className="news-card">
             <div className="news-image">
@@ -99,6 +118,7 @@ function NewsCard({ article, isBookmarkPage = false, onDelete, isLikePage = fals
                     target="_blank"
                     rel="noreferrer"
                     className="read-more"
+                    onClick={handleReadMore}
                 >
                     Read More
                 </a>

@@ -9,6 +9,7 @@ import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import Preferences from "../pages/Preferences";
 import Likes from "../pages/Likes";
+import History from "../pages/History";
 
 function AppRouter(){
     return(
@@ -23,6 +24,7 @@ function AppRouter(){
                 <Route path="*" element={<NotFound/>}/>
                 <Route path="/preferences" element={<Preferences />} />
                 <Route path="/likes" element={<Likes />} />
+                <Route path="/history" element={<History />} />
             </Routes>
         </BrowserRouter>
     );
