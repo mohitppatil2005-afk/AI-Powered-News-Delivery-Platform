@@ -21,7 +21,8 @@ def add_bookmark():
         image=data.get("image"),
         url=data.get("url"),
         source=data.get("source"),
-        published_at=data.get("publishedAt")
+        published_at=data.get("publishedAt"),
+        category= data.get("category")
     )
 
     db.session.add(bookmark)
@@ -44,7 +45,8 @@ def get_bookmark():
             "image": bookmark.image,
             "url": bookmark.url,
             "source": bookmark.source,
-            "publishedAt": bookmark.published_at
+            "publishedAt": bookmark.published_at,
+            "category": bookmark.category
     })
     return jsonify(bookmarks_data)
 

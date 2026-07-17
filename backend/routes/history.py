@@ -22,7 +22,8 @@ def save_history():
         source=data.get("source"),
         url=data["url"],
         image=data.get("image"),
-        published_at=data.get("published_at")
+        published_at=data.get("publishedAt"),
+        category= data.get("category")
     )
 
     db.session.add(article)
@@ -45,8 +46,9 @@ def get_history():
             "source": item.source,
             "url": item.url,
             "image": item.image,
-            "published_at": item.published_at,
-            "viewed_at": item.viewed_at
+            "publishedAt": item.published_at,
+            "viewed_at": item.viewed_at,
+            "category": item.category
         }
         for item in history
     ])

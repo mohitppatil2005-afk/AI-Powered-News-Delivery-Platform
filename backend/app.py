@@ -15,11 +15,13 @@ from routes.news import news_bp
 from routes.bookmarks import bookmark_bp
 from routes.likes import like_bp
 from routes.history import history_bp
+from routes.recommendations import recommendation_bp
 
 app.register_blueprint(news_bp)
 app.register_blueprint(bookmark_bp)
 app.register_blueprint(like_bp)
 app.register_blueprint(history_bp)
+app.register_blueprint(recommendation_bp)
 
 from models import Bookmark, Like
 

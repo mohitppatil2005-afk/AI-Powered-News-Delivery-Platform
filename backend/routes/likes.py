@@ -22,7 +22,8 @@ def add_like():
         image=data.get("image"),
         url=data.get("url"),
         source=data.get("source"),
-        published_at=data.get("publishedAt")
+        published_at=data.get("publishedAt"),
+        category=data.get("category")
     )
 
     db.session.add(like)
@@ -48,7 +49,8 @@ def get_likes():
             "image": like.image,
             "url": like.url,
             "source": like.source,
-            "publishedAt": like.published_at
+            "publishedAt": like.published_at,
+            "category": like.category
         })
 
     return jsonify(likes_data)

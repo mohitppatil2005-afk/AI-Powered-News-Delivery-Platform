@@ -45,7 +45,8 @@ def get_news():
             "image": article.get("urlToImage"),
             "url": article.get("url"),
             "source": article.get("source", {}).get("name"),
-            "publishedAt": article.get("publishedAt")
+            "publishedAt": article.get("publishedAt"),
+            "category": category
         })
 
     return jsonify(articles)
