@@ -14,10 +14,12 @@ db.init_app(app)
 from routes.news import news_bp
 from routes.bookmarks import bookmark_bp
 from routes.likes import like_bp
+from routes.history import history_bp
 
 app.register_blueprint(news_bp)
 app.register_blueprint(bookmark_bp)
 app.register_blueprint(like_bp)
+app.register_blueprint(history_bp)
 
 from models import Bookmark, Like
 
